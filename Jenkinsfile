@@ -1,12 +1,14 @@
 pipeline {
     agent any
 
-    stages {
-        stage('Checkout SCM') {
-            steps {
-                git url: 'https://github.com/sathyask2003/java-microservice-demo.git', branch: 'main'
-            }
-        }
+stage('Checkout') {
+    steps {
+        git branch: 'main',
+            url: 'https://github.com/sathyask2003ME/java-microservice-demo.git',
+            credentialsId: 'github-pat-cred'
+    }
+}
+
 
         stage('Build App') {
             steps {
