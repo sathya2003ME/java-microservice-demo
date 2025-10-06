@@ -1,0 +1,5 @@
+appTestSuite: gradle
+appBuildSuite: gradle
+appTestBundleResult:
+  buildCommand: gradle build
+  testCommand: gradle test
