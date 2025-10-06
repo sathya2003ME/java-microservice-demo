@@ -34,4 +34,4 @@ stage('Checkout') {
             archiveArtifacts artifacts: '**/build/libs/*.jar', allowEmptyArchive: true
         }
     }
-}
+
