@@ -1,14 +1,17 @@
 pipeline {
     agent any
+
     tools {
-        jdk 'jdk21' // Must match Jenkins configured JDK name
+        jdk 'jdk21'           // Name of JDK configured in Jenkins
+        gradle 'gradle7.2'    // Name of Gradle configured in Jenkins
     }
 
     environment {
-        GIT_PAT = credentials('github-pat-cred') // Must exist in Jenkins
+        GIT_PAT = credentials('github-pat-cred')  // GitHub personal access token
     }
 
     stages {
+
         stage('Checkout') {
             steps {
                 echo "Cloning GitHub repository..."
@@ -54,7 +57,7 @@ pipeline {
             sh 'docker rm java-microservice-demo || true'
         }
         success {
-            echo "✅ Pipeline succeeded with JDK 21!"
+            echo "✅ Pipeline succeeded with JDK 21 and Gradle 7.2!"
         }
         failure {
             echo "❌ Pipeline failed — check logs."
