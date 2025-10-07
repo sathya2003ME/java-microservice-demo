@@ -1,8 +1,7 @@
 pipeline {
     agent any
-
     tools {
-        jdk 'jdk21'   // ✅ use the JDK tool we configured in Jenkins
+        jdk 'jdk21'   // Matches the name you gave in Jenkins
     }
 
     environment {
@@ -19,44 +18,25 @@ pipeline {
 
         stage('Build App') {
             steps {
-                echo "Building Java microservice using JDK 21..."
-                sh './gradlew clean build || echo "Build completed (dummy project)"'
+                echo "Building Java microservice..."
+                sh './gradlew clean build'
             }
         }
 
         stage('Run Tests') {
             steps {
                 echo "Running unit tests..."
-                sh './gradlew test || echo "Tests completed (dummy project)"'
-            }
-        }
-
-        stage('Build Docker Image') {
-            steps {
-                echo "Building Docker image..."
-                sh 'docker build -t java-microservice-demo:latest .'
-            }
-        }
-
-        stage('Run Docker Container') {
-            steps {
-                echo "Running Docker container..."
-                sh 'docker run -d --name java-microservice-demo -p 8080:8080 java-microservice-demo:latest || echo "Container started (dummy project)"'
+                sh './gradlew test'
             }
         }
     }
 
     post {
-        always {
-            echo "Pipeline finished. Cleaning up..."
-            sh 'docker stop java-microservice-demo || true'
-            sh 'docker rm java-microservice-demo || true'
-        }
         success {
-            echo "Pipeline succeeded! 🎉"
+            echo "✅ Pipeline succeeded with JDK 21!"
         }
         failure {
-            echo "Pipeline failed. Check logs for details."
+            echo "❌ Pipeline failed — check logs."
         }
     }
 }
