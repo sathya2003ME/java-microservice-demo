@@ -1,11 +1,11 @@
 pipeline {
     agent any
     tools {
-        jdk 'jdk21'   // Matches the name you gave in Jenkins
+        jdk 'jdk21' // Must match Jenkins configured JDK name
     }
 
     environment {
-        GIT_PAT = credentials('github-pat-cred')
+        GIT_PAT = credentials('github-pat-cred') // Must exist in Jenkins
     }
 
     stages {
