@@ -2,7 +2,9 @@ pipeline {
     agent any
 
     environment {
-        GIT_PAT = credentials('github-pat-cred')  // GitHub Personal Access Token
+        GIT_PAT = credentials('github-pat-cred')
+        JAVA_HOME = '/usr/lib/jvm/java-21-openjdk-amd64'
+        PATH = "${JAVA_HOME}/bin:${env.PATH}"
     }
 
     stages {
@@ -18,15 +20,14 @@ pipeline {
         stage('Build App') {
             steps {
                 echo "Building Java microservice using Gradle Wrapper..."
-                // Use wrapper instead of system Gradle
-                sh './gradlew clean build --no-daemon'
+                sh './gradlew clean build --no-daemon --stacktrace'
             }
         }
 
         stage('Run Tests') {
             steps {
                 echo "Running unit tests using Gradle Wrapper..."
-                sh './gradlew test --no-daemon'
+                sh './gradlew test --no-daemon --stacktrace'
             }
         }
 
@@ -40,7 +41,7 @@ pipeline {
         stage('Run Docker Container') {
             steps {
                 echo "Running Docker container..."
-                sh 'docker run -d --name java-microservice-demo -p 8080:8080 java-microservice-demo:latest'
+                sh 'docker run -d --rm --name java-microservice-demo -p 8080:8080 java-microservice-demo:latest'
             }
         }
     }
