@@ -18,15 +18,15 @@ pipeline {
         stage('Build App') {
             steps {
                 echo "Building Java microservice using Gradle Wrapper..."
-                sh './gradlew clean build'
-                sh './gradlew test'
+                // Use wrapper instead of system Gradle
+                sh './gradlew clean build --no-daemon'
             }
         }
 
         stage('Run Tests') {
             steps {
                 echo "Running unit tests using Gradle Wrapper..."
-                sh './gradlew test'
+                sh './gradlew test --no-daemon'
             }
         }
 
