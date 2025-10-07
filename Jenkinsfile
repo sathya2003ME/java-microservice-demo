@@ -2,12 +2,10 @@ pipeline {
     agent any
 
     environment {
-        GIT_PAT = credentials('github-pat-cred')
-        GRADLE_HOME = '/snap/bin'
+        GIT_PAT = credentials('github-pat-cred')  // GitHub Personal Access Token
     }
 
     stages {
-
         stage('Checkout') {
             steps {
                 echo "Cloning GitHub repository..."
@@ -19,15 +17,15 @@ pipeline {
 
         stage('Build App') {
             steps {
-                echo "Building Java microservice..."
-                sh "${GRADLE_HOME}/gradle clean build"
+                echo "Building Java microservice using Gradle Wrapper..."
+                sh './gradlew clean build'
             }
         }
 
         stage('Run Tests') {
             steps {
-                echo "Running unit tests..."
-                sh "${GRADLE_HOME}/gradle test"
+                echo "Running unit tests using Gradle Wrapper..."
+                sh './gradlew test'
             }
         }
 
