@@ -19,6 +19,7 @@ pipeline {
             steps {
                 echo "Building Java microservice using Gradle Wrapper..."
                 sh './gradlew clean build'
+                sh './gradlew test'
             }
         }
 
