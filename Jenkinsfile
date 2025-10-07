@@ -1,12 +1,15 @@
 pipeline {
     agent any
 
+    tools {
+        jdk 'jdk21'   // ✅ use the JDK tool we configured in Jenkins
+    }
+
     environment {
-        GIT_PAT = credentials('github-pat-cred') // Your GitHub PAT stored in Jenkins credentials
+        GIT_PAT = credentials('github-pat-cred')
     }
 
     stages {
-
         stage('Checkout') {
             steps {
                 echo "Cloning GitHub repository..."
@@ -16,7 +19,7 @@ pipeline {
 
         stage('Build App') {
             steps {
-                echo "Building Java microservice..."
+                echo "Building Java microservice using JDK 21..."
                 sh './gradlew clean build || echo "Build completed (dummy project)"'
             }
         }
