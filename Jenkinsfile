@@ -1,13 +1,9 @@
 pipeline {
     agent any
 
-    tools {
-        jdk 'jdk21'           // Name of JDK configured in Jenkins
-        gradle 'gradle7.2'    // Name of Gradle configured in Jenkins
-    }
-
     environment {
-        GIT_PAT = credentials('github-pat-cred')  // GitHub personal access token
+        GIT_PAT = credentials('github-pat-cred')
+        GRADLE_HOME = '/snap/bin'
     }
 
     stages {
@@ -24,14 +20,14 @@ pipeline {
         stage('Build App') {
             steps {
                 echo "Building Java microservice..."
-                sh 'gradle clean build'
+                sh "${GRADLE_HOME}/gradle clean build"
             }
         }
 
         stage('Run Tests') {
             steps {
                 echo "Running unit tests..."
-                sh 'gradle test'
+                sh "${GRADLE_HOME}/gradle test"
             }
         }
 
@@ -57,7 +53,7 @@ pipeline {
             sh 'docker rm java-microservice-demo || true'
         }
         success {
-            echo "✅ Pipeline succeeded with JDK 21 and Gradle 7.2!"
+            echo "✅ Pipeline succeeded!"
         }
         failure {
             echo "❌ Pipeline failed — check logs."
